@@ -1,15 +1,30 @@
-import java.util.TimerTask;
+// My version of Team 06 Threads assignment
 
+/**
+ * super abstract class with num, name, and
+ * an abstract run() method
+ * 
+ * @author John Vehikite
+ *
+ */
 abstract class Counter implements Runnable {
 	int num = 0;
 	String name = "";
 	public abstract void run();
 }
 
+/**
+ * subclass of Counter that counts evenly
+ * 
+ * @author John Vehikite
+ *
+ */
 class CounterEven extends Counter {
 	int num = 2;
 	String name = "Counter Even";
 	
+	// count to 100 evenly, taking a 100 milli
+	// break between counts
 	public void run() {
 		while (num <= 100) {
 			try {
@@ -23,10 +38,18 @@ class CounterEven extends Counter {
 	}
 }
 
+/**
+ * subclass of Counter that counts by oddly
+ * 
+ * @author John Vehikite
+ *
+ */
 class CounterOdd extends Counter {
 	int num = 1;
 	String name = "Counter Odd";
 	
+	// count to 100 oddly, taking a 100 milli
+	// break between counts
 	public void run() {
 		while (num < 100) {
 			try {
@@ -40,14 +63,30 @@ class CounterOdd extends Counter {
 	}
 }
 
-class ThreadTimer extends TimerTask implements Runnable {
+/**
+ * per directions, create a class that prints out "running..." every
+ * second
+ * 
+ * @author John Vehikite
+ *
+ */
+class ThreadTimer implements Runnable {
+	
+	// sentinel to stop while loop below
+	Boolean isFinished = false;
+	
+	void setIsFinished() {
+		isFinished = true;
+	}
+	
 	@Override
 	public void run() {
-		for (;;) {
+		
+		while (!isFinished) {
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException ex) {
-				return;
+				ex.printStackTrace();
 			}
 			System.out.println("running...");
 		}
@@ -57,60 +96,33 @@ class ThreadTimer extends TimerTask implements Runnable {
 public class Threads {
 
 	public static void main(String[] args) throws InterruptedException {
-		Runnable cEven = new CounterEven();
-		Runnable cOdd = new CounterOdd();
-		Runnable tTimer = new ThreadTimer();
+		// create objects of each task
+		CounterEven cEven = new CounterEven();
+		CounterOdd cOdd = new CounterOdd();
+		ThreadTimer tTimer = new ThreadTimer();
+		
+		// have each task on its own thread
 		Thread te = new Thread(cEven);
 		Thread to = new Thread(cOdd);
 		Thread tt = new Thread(tTimer);
+		
+		// start the threads
 		te.start();
 		to.start();
 		tt.start();
+		
+		// join() waits until threads complete tasks to continue
+		// with the program
 		te.join();
 		to.join();
-		tt.interrupt();
+		
+		// signal that counters are finished counting
+		tTimer.setIsFinished();
+		
+		// wait until tt is complete
+		tt.join();
+		
+		// we did it!
 		System.out.println("All finished");
 	}
 }
-
-// First time writing a superclass and subclasses
-//abstract class Counter implements Runnable {
-//	int num = 0;
-//	String name = "";
-//	public void run()
-//	{
-//		go();
-//	}
-//	public void go()
-//	{
-//		try {
-//			Thread.sleep(100);
-//		}
-//		catch(InterruptedException ex) {
-//			ex.printStackTrace();
-//		}
-//		count();
-//	}
-//	
-//	public abstract void count();
-//}
-//
-//class CounterEven extends Counter {
-//	int num = 2;
-//	String name = "Counter Even";
-//	
-//	public void count() {
-//		System.out.println(name + " is at " + num);
-//		num += 2;
-//	}
-//}
-//
-//class CounterOdd extends Counter {
-//	int num = 1;
-//	String name = "Counter Odd";
-//	
-//	public void count() {
-//		System.out.println(name + " is at " + num);
-//		num += 2;
-//	}
-//}
