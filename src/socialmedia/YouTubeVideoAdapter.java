@@ -12,6 +12,10 @@ package socialmedia;
 public class YouTubeVideoAdapter implements SocialMediaEntry {
     
     YouTubeVideo youTubeVideo;
+    
+    YouTubeVideoAdapter(YouTubeVideo ytv) {
+        youTubeVideo = ytv;
+    }
 
     @Override
     public String getUser() {
@@ -20,8 +24,7 @@ public class YouTubeVideoAdapter implements SocialMediaEntry {
 
     @Override
     public String getPostText() {
-        String postText = "Title: " + youTubeVideo.getTitle() + "\n" +
-                "Description: " + youTubeVideo.getDescription();
+        String postText = youTubeVideo.getTitle() + ": " + youTubeVideo.getDescription();
         return postText;
     }
     
