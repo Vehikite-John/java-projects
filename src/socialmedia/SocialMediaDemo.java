@@ -63,7 +63,8 @@ public class SocialMediaDemo implements Runnable {
         
         YouTubeVideo video1 = new YouTubeVideo("MormonMessages", "Bullying",
                 "President Uchtdorf counsels us to stop bullying.");
-        YouTubeVideoAdapter ytva1 = new YouTubeVideoAdapter(video1);
+        // adapt YouTubeVideo object to be able to add to entries list
+		YouTubeVideoAdapter ytva1 = new YouTubeVideoAdapter(video1);
         
         YouTubeVideo video2 = new YouTubeVideo("MormonMessages", "Patterns of Light",
                 "Elder Bednar teaches about the Light of Christ.");
