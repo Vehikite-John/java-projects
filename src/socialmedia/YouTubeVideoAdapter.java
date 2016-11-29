@@ -12,7 +12,7 @@ package socialmedia;
 public class YouTubeVideoAdapter implements SocialMediaEntry {
     
     YouTubeVideo youTubeVideo;
-    
+    // Constructor
     YouTubeVideoAdapter(YouTubeVideo ytv) {
         youTubeVideo = ytv;
     }
